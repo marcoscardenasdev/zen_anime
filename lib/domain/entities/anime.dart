@@ -12,6 +12,7 @@ class Anime {
   final String background;
   final List<String> genres;
   final int members;
+  final String premiere;
 
   Anime({
     required this.id,
@@ -27,5 +28,6 @@ class Anime {
     required this.background,
     required this.genres,
     required this.members,
+    required this.premiere,
   });
 }

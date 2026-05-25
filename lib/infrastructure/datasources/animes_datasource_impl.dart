@@ -60,7 +60,7 @@ class AnimesDatasourceImpl extends AnimesDatasource {
   }
 
   @override
-  Future<List<Anime>> getUpcomingAnimes({int page = 1, int limit = 1}) async {
+  Future<List<Anime>> getUpcomingAnimes({int page = 1, int limit = 10}) async {
     final response = await dio.get(
       '/seasons/upcoming',
       queryParameters: {'page': page, 'limit': limit},

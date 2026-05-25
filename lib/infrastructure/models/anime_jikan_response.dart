@@ -42,7 +42,7 @@ class AnimeResponse {
   final int episodes;
   final String status;
   final bool airing;
-  //final Aired aired;
+  final Aired aired;
   final String duration;
   final Rating rating;
   final double score;
@@ -80,7 +80,7 @@ class AnimeResponse {
     required this.episodes,
     required this.status,
     required this.airing,
-    //required this.aired,
+    required this.aired,
     required this.duration,
     required this.rating,
     required this.score,
@@ -120,12 +120,12 @@ class AnimeResponse {
     episodes: json["episodes"] ?? 0,
     status: json["status"],
     airing: json["airing"],
-    //aired: Aired.fromJson(json["aired"]),
+    aired: Aired.fromJson(json["aired"]),
     duration: json["duration"],
     rating: ratingValues.map[json["rating"]]!,
-    score: json["score"]?.toDouble(),
-    scoredBy: json["scored_by"],
-    rank: json["rank"],
+    score: json["score"] == null ? 0 : json["score"].toDouble(),
+    scoredBy: json["scored_by"] ?? 0,
+    rank: json["rank"] ?? 0,
     popularity: json["popularity"],
     members: json["members"],
     favorites: json["favorites"],
@@ -169,11 +169,11 @@ class AnimeResponse {
     // "title_japanese": titleJapanese,
     "title_synonyms": List<dynamic>.from(titleSynonyms.map((x) => x)),
     "type": type,
-    "source": sourceValues.reverse[source],
+    "source": source,
     "episodes": episodes,
     "status": status,
     "airing": airing,
-    //"aired": aired.toJson(),
+    "aired": aired.toJson(),
     "duration": duration,
     "rating": ratingValues.reverse[rating],
     "score": score,
@@ -197,33 +197,34 @@ class AnimeResponse {
   };
 }
 
-// class Aired {
-//   final DateTime from;
-//   final DateTime? to;
-//   final Prop prop;
-//   final String string;
+class Aired {
+  final DateTime from;
+  final DateTime? to;
+  final Prop prop;
+  final String string;
 
-//   Aired({
-//     required this.from,
-//     this.to,
-//     required this.prop,
-//     required this.string,
-//   });
+  Aired({
+    required this.from,
+    this.to,
+    required this.prop,
+    required this.string,
+  });
 
-//   factory Aired.fromJson(Map<String, dynamic> json) => Aired(
-//     from: DateTime.parse(json["from"]),
-//     to: DateTime.parse(json["to"]),
-//     prop: Prop.fromJson(json["prop"]),
-//     string: json["string"],
-//   );
+  factory Aired.fromJson(Map<String, dynamic> json) => Aired(
+    from: json["from"] == null ? DateTime.now() : DateTime.parse(json["from"]),
 
-//   Map<String, dynamic> toJson() => {
-//     "from": from.toIso8601String(),
-//     "to": to!.toIso8601String(),
-//     "prop": prop.toJson(),
-//     "string": string,
-//   };
-// }
+    to: json["to"] == null ? DateTime.now() : DateTime.parse(json["to"]),
+    prop: Prop.fromJson(json["prop"]),
+    string: json["string"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "from": from.toIso8601String(),
+    "to": to!.toIso8601String(),
+    "prop": prop.toJson(),
+    "string": string,
+  };
+}
 
 class Prop {
   final From from;
@@ -245,7 +246,13 @@ class From {
   From({required this.day, required this.month, required this.year});
 
   factory From.fromJson(Map<String, dynamic> json) =>
-      From(day: json["day"], month: json["month"], year: json["year"]);
+      json["day"] == null || json["day"] == null || json["day"] == null
+      ? From(
+          day: DateTime.now().day,
+          month: DateTime.now().month,
+          year: DateTime.now().year,
+        )
+      : From(day: json["day"], month: json["month"], year: json["year"]);
 
   Map<String, dynamic> toJson() => {"day": day, "month": month, "year": year};
 }

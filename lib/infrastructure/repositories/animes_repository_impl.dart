@@ -26,7 +26,7 @@ class AnimesRepositoryImpl extends AnimesRepository {
   }
 
   @override
-  Future<List<Anime>> getUpcomingAnimes({int page = 1, int limit = 1}) {
+  Future<List<Anime>> getUpcomingAnimes({int page = 1, int limit = 10}) {
     return _datasource.getUpcomingAnimes(page: page, limit: limit);
   }
 
