@@ -19,5 +19,6 @@ abstract class AnimeMapper {
     ),
     members: response.members,
     background: response.background,
+    premiere: response.aired.string,
   );
 }
