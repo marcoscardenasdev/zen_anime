@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:animate_do/animate_do.dart';
 
 import 'package:zen_anime/domain/domain.dart';
 import 'package:zen_anime/presentation/providers/providers.dart';
@@ -18,6 +19,7 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: _HomeView(),
+      bottomNavigationBar: const CustomBottomNavigationBar(),
     );
   }
 }
@@ -101,7 +103,11 @@ class AnimesTopsHorizontalListview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomTitle(title: title, subTitle: subTitle),
+        CustomTitle(
+          title: title,
+          subTitle: subTitle,
+          onPressed: () => context.push('animes-top'),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: animes.length,
@@ -110,7 +116,7 @@ class AnimesTopsHorizontalListview extends StatelessWidget {
               final anime = animes[index];
               return GestureDetector(
                 onTap: () => context.push('/anime/${anime.id}'),
-                child: AnimeTopCard(anime: anime),
+                child: FadeInRight(child: AnimeTopCard(anime: anime)),
               );
             },
           ),
@@ -135,7 +141,11 @@ class AnimesNowHorizontalListview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CustomTitle(title: title, subTitle: subTitle),
+        CustomTitle(
+          title: title,
+          subTitle: subTitle,
+          onPressed: () => context.push('animes-now'),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: animes.length,
@@ -144,7 +154,7 @@ class AnimesNowHorizontalListview extends StatelessWidget {
               final anime = animes[index];
               return GestureDetector(
                 onTap: () => context.push('anime/${anime.id}'),
-                child: AnimeNowCard(anime: anime),
+                child: FadeInRight(child: AnimeNowCard(anime: anime)),
               );
             },
           ),
@@ -171,7 +181,11 @@ class AnimesUpcomingHorizontalListview extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: Column(
         children: [
-          CustomTitle(title: title, subTitle: subTitle),
+          CustomTitle(
+            title: title,
+            subTitle: subTitle,
+            onPressed: () => context.push('animes-upcoming'),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: animes.length,
@@ -180,7 +194,7 @@ class AnimesUpcomingHorizontalListview extends StatelessWidget {
                 final anime = animes[index];
                 return GestureDetector(
                   onTap: () => context.push('anime/${anime.id}'),
-                  child: AnimeUpcomingCard(anime: anime),
+                  child: FadeInRight(child: AnimeUpcomingCard(anime: anime)),
                 );
               },
             ),
