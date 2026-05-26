@@ -14,6 +14,7 @@ class AnimeUpcomingCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 12),
       padding: const EdgeInsets.only(left: 16, right: 16, bottom: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 2,
         children: [
           AnimeImageView(imageUrl: anime.imageUrl),

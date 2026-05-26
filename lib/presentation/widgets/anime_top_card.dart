@@ -60,7 +60,10 @@ class _AnimeInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(anime.title, maxLines: 1, overflow: TextOverflow.ellipsis),
-        Row(children: [Text(anime.type), Text('${anime.episodes} eps')]),
+        Row(
+          spacing: 5,
+          children: [Text(anime.type), Text('${anime.episodes} eps')],
+        ),
       ],
     );
   }
