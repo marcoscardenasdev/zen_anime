@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import 'package:zen_anime/config/config.dart';
 import 'package:zen_anime/domain/domain.dart';
+import '../models/anime_jikan_details_response.dart';
 import '../mappers/anime_mapper.dart';
 import '../models/anime_jikan_response.dart';
 
@@ -30,9 +31,11 @@ class AnimesDatasourceImpl extends AnimesDatasource {
   }
 
   @override
-  Future<Anime> getAnimeById(int id) {
-    // TODO: implement getAnimeById
-    throw UnimplementedError();
+  Future<Anime> getAnimeById(int id) async {
+    final response = await dio.get('/anime/$id');
+    final animeDetails = AnimeDetailsResponse.fromJson(response.data['data']);
+
+    return AnimeMapper.animeDetailsToAnime(animeDetails);
   }
 
   @override

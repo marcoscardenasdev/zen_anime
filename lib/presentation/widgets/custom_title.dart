@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class CustomTitle extends StatelessWidget {
   final String? title;
   final String? subTitle;
-  const CustomTitle({super.key, this.title, this.subTitle});
+  final VoidCallback? onPressed;
+  const CustomTitle({super.key, this.title, this.subTitle, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +13,7 @@ class CustomTitle extends StatelessWidget {
         if (title != null) Text(title!),
         const Spacer(),
         if (subTitle != null)
-          TextButton.icon(
-            onPressed: null,
-            label: Text(subTitle!),
-            icon: Icon(Icons.arrow_right_outlined),
-          ),
+          TextButton(onPressed: onPressed, child: Text(subTitle!)),
       ],
     );
   }
