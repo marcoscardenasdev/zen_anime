@@ -45,14 +45,30 @@ class AnimesNotifier extends StateNotifier<List<Anime>> {
   final GetAnimesCallback fetchAnimes;
 
   int currentPage = 1;
+  bool isLoading = false;
+  bool isLastPage = false;
 
   AnimesNotifier({required this.fetchAnimes}) : super([]);
 
   Future<void> fetchMoreAnimes() async {
+    if (isLoading || isLastPage) {
+      return;
+    }
+
+    isLoading = true;
+
     final animes = await fetchAnimes(page: currentPage);
+
+    if (animes.isEmpty) {
+      isLoading = false;
+      isLastPage = true;
+      return;
+    }
 
     state = [...state, ...animes];
 
+    Future.delayed(Duration(milliseconds: 300));
     currentPage++;
+    isLoading = false;
   }
 }

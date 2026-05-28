@@ -34,7 +34,10 @@ class CharactersNotifier extends StateNotifier<List<Character>> {
     if (characters.isEmpty) {
       isLastPage = true;
       isLoading = false;
+      return;
     }
+
+    print('Page: $currentPage');
 
     state = [...state, ...characters];
 
