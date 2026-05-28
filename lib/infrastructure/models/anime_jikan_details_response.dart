@@ -102,7 +102,7 @@ class AnimeDetailsResponse {
     titleSynonyms: List<dynamic>.from(json["title_synonyms"].map((x) => x)),
     type: json["type"],
     source: json["source"],
-    episodes: json["episodes"],
+    episodes: json["episodes"] ?? 0,
     status: json["status"],
     airing: json["airing"],
     aired: Aired.fromJson(json["aired"]),

@@ -16,7 +16,11 @@ class AnimeRecommendationCard extends StatelessWidget {
       margin: const EdgeInsets.all(16),
       child: Column(
         children: [
-          AnimeImageView(imageUrl: recommendation.imageUrl),
+          AnimeImageView(
+            imageUrl: recommendation.imageUrl,
+            width: size.width * 0.4,
+            height: size.height * 0.25,
+          ),
           Text(recommendation.title),
         ],
       ),

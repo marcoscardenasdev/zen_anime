@@ -1,7 +1,72 @@
 import 'package:flutter/material.dart';
+import 'package:animate_do/animate_do.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:zen_anime/domain/domain.dart';
-import '../widgets/anime_image_view.dart';
+import 'widgets.dart';
+
+class AnimesTopsHorizontalListview extends StatefulWidget {
+  final List<Anime> animes;
+  final String? title;
+  final String? subTitle;
+  final VoidCallback? loadNextPage;
+  const AnimesTopsHorizontalListview({
+    super.key,
+    required this.animes,
+    this.title,
+    this.subTitle,
+    this.loadNextPage,
+  });
+
+  @override
+  State<AnimesTopsHorizontalListview> createState() =>
+      _AnimesTopsHorizontalListviewState();
+}
+
+class _AnimesTopsHorizontalListviewState
+    extends State<AnimesTopsHorizontalListview> {
+  final scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    scrollController.addListener(() {
+      if ((scrollController.position.pixels + 600) >=
+          scrollController.position.maxScrollExtent) {
+        widget.loadNextPage!();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        CustomTitle(title: widget.title, subTitle: widget.subTitle),
+        Expanded(
+          child: ListView.builder(
+            itemCount: widget.animes.length,
+            controller: scrollController,
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              final anime = widget.animes[index];
+              return GestureDetector(
+                onTap: () => context.push('/anime/${anime.id}'),
+                child: FadeInRight(child: AnimeTopCard(anime: anime)),
+              );
+            },
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class AnimeTopCard extends StatelessWidget {
   final Anime anime;
@@ -19,7 +84,11 @@ class AnimeTopCard extends StatelessWidget {
         children: [
           Stack(
             children: [
-              AnimeImageView(imageUrl: anime.imageUrl),
+              AnimeImageView(
+                imageUrl: anime.imageUrl,
+                height: size.width * 0.45,
+                width: size.width * 0.38,
+              ),
               Align(
                 alignment: AlignmentGeometry.topRight,
                 child: Container(

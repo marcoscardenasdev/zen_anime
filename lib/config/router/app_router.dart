@@ -21,18 +21,6 @@ final appRouter = GoRouter(
           builder: (context, state) => CharactersScreen(),
         ),
         GoRoute(path: 'animes', builder: (context, state) => AnimesScreen()),
-        GoRoute(
-          path: 'animes-top',
-          builder: (context, state) => AnimesTopScreen(),
-        ),
-        GoRoute(
-          path: 'animes-now',
-          builder: (context, state) => AnimesNowScreen(),
-        ),
-        GoRoute(
-          path: 'animes-upcoming',
-          builder: (context, state) => AnimesUpcomingScreen(),
-        ),
       ],
     ),
   ],
