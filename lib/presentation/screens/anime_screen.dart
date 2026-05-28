@@ -30,11 +30,11 @@ class _AnimeView extends ConsumerStatefulWidget {
 class _AnimeViewState extends ConsumerState<_AnimeView> {
   @override
   void initState() {
+    super.initState();
     ref.read(getAnimeByIdProvider.notifier).loadAnime(widget.id);
     ref
         .read(getAnimeRecommendationsProvider.notifier)
         .loadRecommendations(widget.id);
-    super.initState();
   }
 
   @override
@@ -45,71 +45,77 @@ class _AnimeViewState extends ConsumerState<_AnimeView> {
   @override
   Widget build(BuildContext context) {
     final anime = ref.watch(getAnimeByIdProvider)[widget.id];
-    final recomendations = ref.watch(
+    final recommendations = ref.watch(
       getAnimeRecommendationsProvider,
     )[widget.id];
     final size = MediaQuery.of(context).size;
-    // TODO: Comprobar si ya se cargo la informacion
 
-    if (anime == null || recomendations == null) {
-      return CircularProgressIndicator();
+    if (anime == null || recommendations == null) {
+      return FullScreenLoader(
+        messages: ['Cargando informacion', 'Espere, por favor', 'Ya mero...'],
+      );
     }
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          AnimeImageView(imageUrl: anime.imageUrl),
-          Text(anime.title),
-          Row(
-            children: [
-              _CustomContainerDetail(
-                icon: Icon(Icons.star),
-                title: '${anime.score}',
-                subTitle: 'Score',
-              ),
-              _CustomContainerDetail(
-                icon: Icon(Icons.bar_chart),
-                title: '${anime.rank}',
-                subTitle: 'Ranked',
-              ),
-              _CustomContainerDetail(
-                icon: Icon(Icons.play_circle),
-                title: anime.status,
-                subTitle: 'Status',
-              ),
-            ],
-          ),
-
-          Text('Synopsis'),
-          _Synopsis(synopsis: anime.synopsis),
-
-          // TODO: Personajes
-          SizedBox(
-            width: double.infinity,
-            height: size.height * 0.5,
-            child: Column(
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            AnimeImageView(imageUrl: anime.imageUrl),
+            Text(anime.title),
+            Row(
               children: [
-                CustomTitle(title: 'Recomendaciones'),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: recomendations.length,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      final recommendation = recomendations[index];
-                      return GestureDetector(
-                        onTap: () => context.push('anime/${recommendation.id}'),
-                        child: AnimeRecommendationCard(
-                          recommendation: recommendation,
-                        ),
-                      );
-                    },
-                  ),
+                _CustomContainerDetail(
+                  icon: Icon(Icons.star),
+                  title: '${anime.score}',
+                  subTitle: 'Score',
+                ),
+                _CustomContainerDetail(
+                  icon: Icon(Icons.bar_chart),
+                  title: '${anime.rank}',
+                  subTitle: 'Ranked',
+                ),
+                _CustomContainerDetail(
+                  icon: Icon(Icons.play_circle),
+                  title: anime.status,
+                  subTitle: 'Status',
                 ),
               ],
             ),
-          ),
-          // Recomendaciones
-        ],
+
+            Text('Synopsis'),
+            _Synopsis(synopsis: anime.synopsis),
+
+            // TODO: Personajes
+            SizedBox(
+              width: double.infinity,
+              height: size.height * 0.5,
+              child: Column(
+                children: [
+                  CustomTitle(title: 'Recomendaciones'),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: recommendations.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        final recommendation = recommendations[index];
+                        return GestureDetector(
+                          onTap: () =>
+                              context.push('anime/${recommendation.id}'),
+                          child: AnimeRecommendationCard(
+                            recommendation: recommendation,
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Recomendaciones
+          ],
+        ),
       ),
     );
   }
