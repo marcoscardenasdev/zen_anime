@@ -115,7 +115,7 @@ class AnimeResponse {
     title: json["title"],
     // titleJapanese: json["title_japanese"],
     titleSynonyms: List<String>.from(json["title_synonyms"].map((x) => x)),
-    type: json["type"],
+    type: json["type"] ?? '',
     source: json["source"],
     episodes: json["episodes"] ?? 0,
     status: json["status"],
@@ -129,7 +129,7 @@ class AnimeResponse {
     popularity: json["popularity"],
     members: json["members"],
     favorites: json["favorites"],
-    synopsis: json["synopsis"],
+    synopsis: json["synopsis"] ?? '',
     background: json["background"],
     season: json["season"] ?? Season.SPRING.toString(),
     year: json["year"] ?? 0,
@@ -350,6 +350,8 @@ enum Rating {
   PG_CHILDREN,
   R_17_VIOLENCE_PROFANITY,
   R_MILD_NUDITY,
+  G_All_Ages,
+  Rx_Hentai,
 }
 
 final ratingValues = EnumValues({
@@ -357,6 +359,8 @@ final ratingValues = EnumValues({
   "PG - Children": Rating.PG_CHILDREN,
   "R - 17+ (violence & profanity)": Rating.R_17_VIOLENCE_PROFANITY,
   "R+ - Mild Nudity": Rating.R_MILD_NUDITY,
+  "G - All Ages": Rating.G_All_Ages,
+  "Rx - Hentai": Rating.Rx_Hentai,
 });
 
 enum Season { FALL, SPRING, SUMMER }
