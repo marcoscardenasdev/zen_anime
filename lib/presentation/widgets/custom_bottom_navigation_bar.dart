@@ -6,6 +6,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   int _getCurrentIndex(BuildContext context) {
     final location = GoRouter.of(context).state.path;
+
     if (location == '/') {
       return 0;
     } else if (location == 'animes') {
@@ -13,7 +14,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
     } else if (location == 'characters') {
       return 2;
     }
-
     return 0;
   }
 
@@ -26,14 +26,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
           case 0:
             context.go('/');
             break;
-
           case 1:
             context.go('animes');
             break;
           case 2:
             context.go('characters');
             break;
-          default:
         }
       },
       elevation: 0,
