@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -47,6 +48,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
         ref.read(getUpcomingAnimes.notifier).fetchMoreAnimes();
       }
     });
+
     super.initState();
   }
 
@@ -74,7 +76,7 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final size = MediaQuery.of(context).size;
     final animesTop = ref.watch(getTopAnimes);
     final animesNow = ref.watch(getNowAnimes);
-    //final animesPopular = ref.watch(getPopularAnimes);
+    final animesPopular = ref.watch(getPopularAnimes);
     final animesUpcoming = ref.watch(getUpcomingAnimes);
 
     return Container(
@@ -84,10 +86,18 @@ class _HomeViewState extends ConsumerState<_HomeView> {
         controller: scrollController,
         child: Column(
           children: [
-            // GestureDetector(
-            //   onTap: () => context.go('anime/${animesPopular.first.id}'),
-            //   child: AnimePopularCard(anime: animesPopular.first),
-            // ),
+            CarouselSlider.builder(
+              options: CarouselOptions(
+                autoPlay: true,
+                height: size.height * 0.4,
+                scrollPhysics: BouncingScrollPhysics(),
+              ),
+              itemCount: animesPopular.length,
+              itemBuilder: (context, index, realIndex) {
+                final anime = animesPopular[index];
+                return AnimePopularCard(anime: anime);
+              },
+            ),
             SizedBox(
               height: size.height * 0.33,
               width: double.infinity,
